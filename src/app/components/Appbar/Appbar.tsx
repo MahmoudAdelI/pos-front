@@ -6,8 +6,7 @@ import LogOut from "../logOutButton/LogOutButton";
 const Appbar = async () => {
   const token = await getToken();
   return (
-    <div className="mx-auto flex items-center justify-between border-b border-OutlineColor px-14 py-3">
-      <Link href="/">Home</Link>
+    <div className="mx-auto flex items-center justify-end px-14 py-3">
       <div className="flex items-center gap-4">
         <ThemeToggle />
         {token ? (

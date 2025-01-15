@@ -4,19 +4,27 @@
 
 :root {
   --primary: #5046e5;
+  --label: #5046e5;
   --bg: #ffffff;
   --fg: #eef2fe;
+  --highlight: #eef2fe;
+  --navBackground: #ffffff;
   --primaryTextColor: #080f1f;
   --secondaryTextColor: #64748b;
   --icons: #5046e5;
   --outlineColor: #5146e58f;
-  --alert: rgb(214, 17, 17);
+  --alert: #d61111;
+  --navBorder: #64748b48;
 }
 [data-theme="dark"] {
-  --bg: #10172a;
-  --fg: #3a3f5f;
+  --bg: #15181e;
+  --label: var(--secondaryTextColor);
+  --fg: #2a2d33;
+  --highlight: #414449;
+  --navBackground: #2a2d33;
   --primaryTextColor: #f8f9fd;
   --secondaryTextColor: #9fa4a8;
   --icons: #f8f9fd;
+  --outlineColor: var(--fg);
   --alert: #e23b1d;
 }
