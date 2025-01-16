@@ -1,5 +1,6 @@
 "use client";
 
+import login from "@/app/auth/login";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import classNames from "classnames";
@@ -28,7 +29,7 @@ const LoginForm = () => {
   const onSubmit = handleSubmit(async (data) => {
     try {
       setPending(true);
-      await axios.post("/api/auth/login", data);
+      await login(data);
       router.push("/");
       router.refresh();
     } catch (error) {
@@ -90,51 +91,3 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
-
-{
-  /* <div className="w-full">
-          <div
-            className={classNames({
-              "form-input": true,
-              "form-input-error": errors.username?.message,
-              "outline-OutlineColor": !errors.username?.message,
-            })}
-          >
-            <span>
-              <TbUser />
-            </span>
-            <input
-              {...register("username")}
-              type="text"
-              placeholder="Username"
-              className="flex-1 bg-transparent outline-none placeholder:text-inherit"
-            />
-          </div>
-          <ErrorMessage>{errors.username?.message}</ErrorMessage>
-        </div> */
-}
-{
-  /* <div className="w-full">
-          <div
-            className={classNames({
-              "form-input": true,
-              "form-input-error": errors.password?.message,
-              "outline-OutlineColor": !errors.password?.message,
-            })}
-          >
-            <span>
-              <TbLockPassword />
-            </span>
-            <input
-              {...register("password")}
-              type={visiblePassword ? "text" : "password"}
-              placeholder="password"
-              className="flex-1 bg-transparent outline-none placeholder:text-inherit"
-            />
-            <span onClick={showPassword} className="cursor-pointer">
-              {visiblePassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
-            </span>
-          </div>
-          <ErrorMessage>{errors.password?.message}</ErrorMessage>
-        </div> */
-}

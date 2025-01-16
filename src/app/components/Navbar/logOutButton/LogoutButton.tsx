@@ -1,17 +1,18 @@
 "use client";
 
-import axios from "axios";
+import logout from "@/app/auth/logout";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { IoIosLogOut } from "react-icons/io";
 
-const LogOut = () => {
+const Logout = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogout = async () => {
     try {
       setIsLoading(true);
-      await axios.post("/api/auth/logout");
+      await logout();
       router.push("/login");
       router.refresh();
     } catch (error) {
@@ -21,10 +22,10 @@ const LogOut = () => {
     }
   };
   return (
-    <button className="p3" onClick={handleLogout}>
-      Log Out
+    <button className="p-2" onClick={handleLogout}>
+      <IoIosLogOut />
     </button>
   );
 };
 
-export default LogOut;
+export default Logout;

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
+import getToken from "./auth/getToken";
 import Appbar from "./components/Appbar/Appbar";
+import NavbarWrapper from "./components/Navbar/NavbarWrapper";
 import "./globals.css";
 import ThemeProvider from "./ThemeProvider";
-import Navbar from "./components/Navbar/Navbar";
-import getToken from "./auth/getToken";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,9 +19,9 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning={true}>
-      <body className="bg-Bg text-PrimaryTextColor flex justify-between">
+      <body className="flex justify-between bg-Bg text-PrimaryTextColor">
         <ThemeProvider>
-          {token && <Navbar />}
+          {token && <NavbarWrapper />}
           <main className="w-full">
             <Appbar />
             {children}

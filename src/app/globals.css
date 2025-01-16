@@ -25,6 +25,6 @@
   --primaryTextColor: #f8f9fd;
   --secondaryTextColor: #9fa4a8;
   --icons: #f8f9fd;
-  --outlineColor: var(--fg);
+  --outlineColor: #64748b48;
   --alert: #e23b1d;
 }

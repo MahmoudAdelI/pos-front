@@ -3,16 +3,16 @@
 @tailwind utilities;
 
 .form {
-  @apply border-OutlineColor flex flex-col items-center justify-center gap-6 rounded-2xl border p-4 shadow-xl motion-translate-y-in-50 motion-opacity-in-0 motion-duration-1000 motion-delay-500 md:gap-6 md:p-8;
+  @apply flex flex-col items-center justify-center gap-6 rounded-2xl border border-OutlineColor p-4 shadow-xl motion-translate-y-in-50 motion-opacity-in-0 motion-duration-1000 motion-delay-500 md:gap-6 md:p-8;
 }
 
 .form-input {
-  @apply bg-Fg text-SecondaryTextColor caret-OutlineColor flex appearance-none items-center gap-1 rounded-3xl p-3 outline-1 focus-within:outline;
+  @apply flex appearance-none items-center gap-1 rounded-3xl bg-Fg p-3 text-SecondaryTextColor caret-OutlineColor outline-1 focus-within:outline focus-within:outline-label;
 }
 
 .form-input-error {
-  @apply border-Alert border !outline-none;
+  @apply border border-Alert !outline-none;
 }
 .label {
-  @apply text-label peer-focus:text-label absolute left-0 -ml-2 -translate-y-8 text-sm duration-100 ease-linear peer-placeholder-shown:ml-0 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-base peer-placeholder-shown:text-inherit peer-focus:-ml-2 peer-focus:-translate-y-8 peer-focus:text-sm;
+  @apply absolute left-0 -ml-2 -translate-y-8 text-sm text-label duration-100 ease-linear peer-placeholder-shown:ml-0 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-base peer-placeholder-shown:text-inherit peer-focus:-ml-2 peer-focus:-translate-y-8 peer-focus:text-sm peer-focus:text-label;
 }
