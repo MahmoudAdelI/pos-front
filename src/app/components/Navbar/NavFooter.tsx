@@ -2,7 +2,13 @@ import classNames from "classnames";
 import Logout from "./logOutButton/LogoutButton";
 import { User } from "./Navbar";
 
-const NavFooter = ({ expanded, user }: { expanded: boolean; user: User }) => {
+const NavFooter = ({
+  expanded,
+  user,
+}: {
+  expanded: boolean;
+  user: User | null;
+}) => {
   return (
     <>
       <span className="mb-4 h-[1px] bg-navBorder"></span>
@@ -15,7 +21,7 @@ const NavFooter = ({ expanded, user }: { expanded: boolean; user: User }) => {
             "h-10 w-10": !expanded,
           })}
         >
-          {user.firstName[0]}
+          {user?.firstName[0]}
         </div>
 
         <div
@@ -26,9 +32,9 @@ const NavFooter = ({ expanded, user }: { expanded: boolean; user: User }) => {
           })}
         >
           <div className="font-semibold text-SecondaryTextColor transition-all duration-300 hover:text-inherit">
-            {user.firstName} {user.lastName}
+            {user?.firstName} {user?.lastName}
           </div>
-          <div className="text-xs text-SecondaryTextColor">{user.role}</div>
+          <div className="text-xs text-SecondaryTextColor">{user?.role}</div>
         </div>
         <div
           className={classNames({
@@ -37,7 +43,7 @@ const NavFooter = ({ expanded, user }: { expanded: boolean; user: User }) => {
             "opacity-0": !expanded,
           })}
         >
-          <span className="text-2xl text-SecondaryTextColor transition-colors hover:text-inherit">
+          <span className="ml-6 text-2xl text-SecondaryTextColor transition-colors hover:text-inherit">
             <Logout />
           </span>
         </div>

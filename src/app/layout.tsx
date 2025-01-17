@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import getToken from "./auth/getToken";
 import Appbar from "./components/Appbar/Appbar";
-import NavbarWrapper from "./components/Navbar/NavbarWrapper";
+import Navbar from "./components/Navbar/Navbar";
 import "./globals.css";
 import ThemeProvider from "./ThemeProvider";
 
@@ -19,10 +19,10 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning={true}>
-      <body className="flex justify-between bg-Bg text-PrimaryTextColor">
+      <body className="flex bg-Bg text-PrimaryTextColor">
         <ThemeProvider>
-          {token && <NavbarWrapper />}
-          <main className="w-full">
+          {token && <Navbar token={token} />}
+          <main className="flex-1">
             <Appbar />
             {children}
           </main>

@@ -1,6 +1,7 @@
 "use client";
 import classNames from "classnames";
-import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import {
   MdOutlineKeyboardArrowLeft,
   MdOutlineKeyboardArrowRight,
@@ -8,23 +9,42 @@ import {
 import NavFooter from "./NavFooter";
 import NavHeader from "./NavHeader";
 import NavItems from "./NavItems";
-export type User = {
-  id: string;
-  firstName: string;
-  lastName: string;
-  userName: string;
-  startTime: Date;
-  endTime: Date;
-  role: string;
-};
+import { User, userSchema } from "./types";
 
-const Navbar = ({ user }: { user: User }) => {
+const Navbar = ({ token }: { token: string }) => {
   const [expanded, setExpanded] = useState(true);
+  const [user, setUser] = useState<User>();
+  const pathname = usePathname();
+  const router = useRouter();
+  useEffect(() => {
+    if (pathname === "/login") return;
+    const fetchUser = async (token: string) => {
+      try {
+        const res = await fetch("http://localhost:5091/api/Users/current", {
+          cache: "no-store",
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await res.json();
+        const _user = userSchema.safeParse(data);
+        if (!_user.success) {
+          router.push("/login");
+          return;
+        }
+        setUser(_user.data);
+      } catch (error) {
+        console.error(error);
+        router.push("/login");
+      }
+    };
+    fetchUser(token);
+  }, [token]);
 
+  if (pathname === "/login") return null;
+  if (!user) return null;
   return (
     <nav
       className={classNames({
-        "fixed flex h-screen flex-col justify-between border-r border-navBorder bg-navBackground px-5 pb-8 text-xl leading-none transition-all duration-300":
+        "sticky top-0 flex max-h-screen flex-col justify-between border-r border-navBorder bg-navBackground px-5 pb-8 text-xl leading-none transition-all duration-300":
           true,
         "w-64": expanded,
         "w-20": !expanded,
@@ -42,7 +62,7 @@ const Navbar = ({ user }: { user: User }) => {
       </button>
       <NavHeader expanded={expanded} />
       <div className="flex-1">
-        <NavItems />
+        <NavItems expanded={expanded} />
       </div>
       <NavFooter expanded={expanded} user={user} />
     </nav>
