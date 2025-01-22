@@ -7,10 +7,10 @@ import { IconType } from "react-icons";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 type FormInputProps = {
-  Icon: IconType;
+  Icon?: IconType | undefined;
   placeholder: string;
   error?: string | undefined;
-  type?: "text" | "password" | undefined;
+  type?: "text" | "password" | "number" | undefined;
 };
 const FormInput = ({
   Icon,
@@ -36,8 +36,9 @@ const FormInput = ({
           "outline-OutlineColor": !error,
         })}
       >
-        <Icon />
-        <div className="relative w-full">
+        {Icon && <Icon />}
+
+        <div className="relative flex w-full">
           <input
             {...rest}
             id={placeholder}
@@ -50,6 +51,7 @@ const FormInput = ({
             {placeholder}
           </label>
         </div>
+
         {type === "password" && (
           <span onClick={togglePassword} className="cursor-pointer">
             {visiblePassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}

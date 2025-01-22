@@ -13,7 +13,7 @@ import { User, userSchema } from "./types";
 
 const Navbar = ({ token }: { token: string }) => {
   const [expanded, setExpanded] = useState(true);
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User | null>(null);
   const pathname = usePathname();
   const router = useRouter();
   useEffect(() => {
@@ -44,7 +44,7 @@ const Navbar = ({ token }: { token: string }) => {
   return (
     <nav
       className={classNames({
-        "sticky top-0 flex max-h-screen flex-col justify-between border-r border-navBorder bg-navBackground px-5 pb-8 text-xl leading-none transition-all duration-300":
+        "sticky top-0 flex h-screen flex-col justify-between border-r border-navBorder bg-navBackground px-5 pb-8 text-xl leading-none transition-all duration-300":
           true,
         "w-64": expanded,
         "w-20": !expanded,

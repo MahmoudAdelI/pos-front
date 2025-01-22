@@ -6,7 +6,7 @@ import Logout from "../Navbar/logOutButton/LogoutButton";
 const Appbar = async () => {
   const token = await getToken();
   return (
-    <div className="flex items-center justify-end px-14 py-3">
+    <div className="flex items-center justify-end py-3">
       <div className="flex items-center gap-4">
         <ThemeToggle />
         {/* {token ? (

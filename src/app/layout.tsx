@@ -16,13 +16,13 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const token = await getToken();
-
+  console.log(token);
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body className="flex bg-Bg text-PrimaryTextColor">
         <ThemeProvider>
           {token && <Navbar token={token} />}
-          <main className="flex-1">
+          <main className="mx-auto max-w-6xl flex-1 px-7">
             <Appbar />
             {children}
           </main>
