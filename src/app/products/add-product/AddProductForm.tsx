@@ -1,22 +1,13 @@
 "use client";
-import React from "react";
-import { brandsType, categoriesType, unitsType } from "./page";
-import { z } from "zod";
-import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import CustomSelect from "@/app/components/CustomSelect";
 import FormInput from "@/app/login/login-form/FormInput";
-import { IoMdArrowDropdown } from "react-icons/io";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { SelectItem } from "@/components/ui/select";
+import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { brandsType, categoriesType, unitsType } from "./page";
 type AddProductFormProps = {
   categories: categoriesType;
   brands: brandsType;
@@ -60,84 +51,35 @@ const AddProductForm = ({
     <form onSubmit={onSubmit} className="flex max-w-xl flex-col gap-8 p-8">
       <FormInput type="text" placeholder="Name" {...register("name")} />
       <div className="relative flex gap-4">
-        <Controller
-          name="categoryId"
-          control={control}
-          render={({ field }) => (
-            <Select onValueChange={field.onChange} value={field.value}>
-              <SelectTrigger className="relative border-0 bg-Fg text-SecondaryTextColor focus:ring-0">
-                <span className="absolute -top-6 left-0 text-PrimaryTextColor">
-                  Category
-                </span>
-                <SelectValue placeholder="Category" />
-              </SelectTrigger>
-              <SelectContent className="bg-Fg text-SecondaryTextColor">
-                <SelectGroup>
-                  <SelectLabel>Categories</SelectLabel>
-                  {categories.map((category) => (
-                    <SelectItem
-                      key={category.id}
-                      value={category.id}
-                      className="hover:!bg-highlight hover:!text-PrimaryTextColor"
-                    >
-                      {category.name}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          )}
-        />
-        <Controller
-          name="companyId"
-          control={control}
-          render={({ field }) => (
-            <Select onValueChange={field.onChange} value={field.value}>
-              <SelectTrigger className="relative border-0 bg-Fg text-SecondaryTextColor focus:ring-0">
-                <SelectValue placeholder="Brand" />
-                <span className="absolute -top-6 left-0 text-PrimaryTextColor">
-                  Brand
-                </span>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Brands</SelectLabel>
-                  {brands.map((brand) => (
-                    <SelectItem key={brand.id} value={brand.id}>
-                      {brand.name}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          )}
-        />
+        <CustomSelect name="categoryId" control={control} label="Category">
+          {categories.map((category) => (
+            <SelectItem
+              key={category.id}
+              value={category.id}
+              className="hover:!bg-highlight hover:!text-PrimaryTextColor"
+            >
+              {category.name}
+            </SelectItem>
+          ))}
+        </CustomSelect>
+
+        <CustomSelect name="companyId" control={control} label="Brand">
+          {brands.map((brand) => (
+            <SelectItem key={brand.id} value={brand.id}>
+              {brand.name}
+            </SelectItem>
+          ))}
+        </CustomSelect>
       </div>
       <div className="relative flex gap-4">
-        <Controller
-          name="unitId"
-          control={control}
-          render={({ field }) => (
-            <Select onValueChange={field.onChange} value={field.value}>
-              <SelectTrigger className="relative border-0 bg-Fg text-SecondaryTextColor focus:ring-0">
-                <SelectValue placeholder="Unit" />
-                <span className="absolute -top-6 left-0 text-PrimaryTextColor">
-                  Unit
-                </span>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Units</SelectLabel>
-                  {units.map((unit) => (
-                    <SelectItem key={unit.id} value={unit.id}>
-                      {unit.name}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          )}
-        />
+        <CustomSelect name="unitId" control={control} label="Unit">
+          {units.map((unit) => (
+            <SelectItem key={unit.id} value={unit.id}>
+              {unit.name}
+            </SelectItem>
+          ))}
+        </CustomSelect>
+
         <FormInput
           type="number"
           placeholder="Quantity"
