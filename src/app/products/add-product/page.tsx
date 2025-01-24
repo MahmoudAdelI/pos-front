@@ -1,6 +1,5 @@
 import getToken from "@/app/auth/getToken";
 import axios from "axios";
-import React from "react";
 import { z } from "zod";
 import AddProductForm from "./AddProductForm";
 const brandsSchema = z.array(
@@ -29,7 +28,6 @@ export type unitsType = z.infer<typeof unitsSchema>;
 
 const addProductPage = async () => {
   const token = await getToken();
-  console.log(token);
 
   const { data: brandsResponse } = await axios.get(
     "http://localhost:5091/api/Company/GetAll",
@@ -55,12 +53,14 @@ const addProductPage = async () => {
   );
   const { data: units } = unitsSchema.safeParse(unitsResponse);
   return (
-    <AddProductForm
-      categories={categories!}
-      brands={brands!}
-      units={units!}
-      token={token!}
-    />
+    <>
+      <AddProductForm
+        categories={categories!}
+        brands={brands!}
+        units={units!}
+        token={token!}
+      />
+    </>
   );
 };
 

@@ -1,7 +1,7 @@
 import getToken from "@/app/auth/getToken";
 import ThemeToggle from "@/app/ThemeToggle";
 import Link from "next/link";
-import Logout from "../Navbar/logOutButton/LogoutButton";
+import Logout from "../logOutButton/LogoutButton";
 
 const Appbar = async () => {
   const token = await getToken();

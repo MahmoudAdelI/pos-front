@@ -28,12 +28,14 @@ const FormInput = ({
     type === "password" ? (visiblePassword ? "text" : "password") : type;
 
   return (
-    <div className="w-full">
+    <div className="relative w-full">
+      <span className="absolute -top-6 left-0 text-xs font-medium text-PrimaryTextColor">
+        {placeholder}
+      </span>
       <div
         className={classNames({
           "form-input": true,
           "form-input-error": error,
-          "outline-OutlineColor": !error,
         })}
       >
         {Icon && <Icon />}
@@ -45,11 +47,8 @@ const FormInput = ({
             type={inputType}
             placeholder={placeholder}
             autoComplete="off"
-            className="peer flex-1 bg-transparent outline-none placeholder:text-transparent"
+            className="peer flex-1 bg-transparent outline-none"
           />
-          <label htmlFor={placeholder} className="label">
-            {placeholder}
-          </label>
         </div>
 
         {type === "password" && (

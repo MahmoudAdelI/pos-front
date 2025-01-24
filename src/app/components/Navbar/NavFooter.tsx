@@ -1,6 +1,6 @@
 import classNames from "classnames";
-import Logout from "./logOutButton/LogoutButton";
-import { User } from "./Navbar";
+import Logout from "../logOutButton/LogoutButton";
+import { User } from "./types";
 
 const NavFooter = ({
   expanded,

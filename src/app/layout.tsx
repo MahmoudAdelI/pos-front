@@ -21,8 +21,8 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning={true}>
       <body className="flex bg-Bg text-PrimaryTextColor">
         <ThemeProvider>
-          {token && <Navbar token={token} />}
-          <main className="mx-auto max-w-6xl flex-1 px-7">
+          <Navbar token={token} />
+          <main className="mx-auto max-w-[80vw] flex-1">
             <Appbar />
             {children}
           </main>

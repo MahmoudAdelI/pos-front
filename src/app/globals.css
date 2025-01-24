@@ -14,7 +14,8 @@
   --icons: #5046e5;
   --outlineColor: #5146e58f;
   --alert: #d61111;
-  --navBorder: #64748b48;
+  --navBorder: #75757545;
+  --buttonPending: #5146e5d3;
 }
 [data-theme="dark"] {
   --bg: #15181e;
@@ -29,15 +30,15 @@
   --alert: #e23b1d;
 }
 .form {
-  @apply flex flex-col items-center justify-center gap-6 rounded-md border border-OutlineColor p-4 shadow-xl motion-translate-y-in-50 motion-opacity-in-0 motion-duration-1000 motion-delay-500 md:gap-6 md:p-8;
+  @apply flex flex-col items-center justify-center gap-8 rounded-md border border-OutlineColor p-4 shadow-xl motion-translate-y-in-50 motion-opacity-in-0 motion-duration-1000 motion-delay-500 md:p-8;
 }
 
 .form-input {
-  @apply flex h-9 appearance-none items-center gap-1 rounded-md bg-Fg px-3 py-2 text-SecondaryTextColor caret-OutlineColor outline-1 focus-within:outline focus-within:outline-label;
+  @apply flex h-9 appearance-none items-center gap-1 rounded-md border border-navBorder bg-navBackground px-3 py-2 text-SecondaryTextColor caret-OutlineColor shadow-sm outline-1 transition-all focus-within:border-label;
 }
 
 .form-input-error {
-  @apply border border-Alert !outline-none;
+  @apply border border-Alert !outline-none focus-within:border-Alert;
 }
 .label {
   @apply absolute left-0 -translate-y-8 text-sm text-label duration-100 ease-linear peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-base peer-placeholder-shown:text-inherit peer-focus:-translate-y-8 peer-focus:text-sm peer-focus:text-label;

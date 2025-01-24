@@ -11,12 +11,16 @@ import NavHeader from "./NavHeader";
 import NavItems from "./NavItems";
 import { User, userSchema } from "./types";
 
-const Navbar = ({ token }: { token: string }) => {
+const Navbar = ({ token }: { token: string | undefined }) => {
   const [expanded, setExpanded] = useState(true);
   const [user, setUser] = useState<User | null>(null);
   const pathname = usePathname();
   const router = useRouter();
   useEffect(() => {
+    if (!token) {
+      router.push("/login");
+      return;
+    }
     if (pathname === "/login") return;
     const fetchUser = async (token: string) => {
       try {
@@ -40,7 +44,6 @@ const Navbar = ({ token }: { token: string }) => {
   }, [token]);
 
   if (pathname === "/login") return null;
-  if (!user) return null;
   return (
     <nav
       className={classNames({
