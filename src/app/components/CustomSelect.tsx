@@ -2,7 +2,6 @@ import {
   Select,
   SelectContent,
   SelectGroup,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -16,21 +15,26 @@ const CustomSelect = ({
   label,
   name,
   error,
+  disabled,
 }: {
   children: React.ReactNode;
   control: any;
   label: string;
   name: string;
   error?: string | undefined;
+  disabled?: boolean;
 }) => {
-  console.log(error);
   return (
     <div className="flex w-full flex-col">
       <Controller
         name={name}
         control={control}
         render={({ field }) => (
-          <Select onValueChange={field.onChange} value={field.value}>
+          <Select
+            disabled={disabled}
+            onValueChange={field.onChange}
+            value={field.value}
+          >
             <SelectTrigger
               className={classNames({
                 "relative border border-navBorder bg-navBackground text-SecondaryTextColor focus:border-label focus:ring-0":

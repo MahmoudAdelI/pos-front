@@ -5,8 +5,9 @@
 :root {
   --primary: #5046e5;
   --label: #5046e5;
-  --bg: #ffffff;
+  --bg: #f9f9f9;
   --fg: #eef2fe;
+  --form: #ffffff;
   --highlight: #eef2fe;
   --navBackground: #ffffff;
   --primaryTextColor: #080f1f;
@@ -21,6 +22,7 @@
   --bg: #15181e;
   --label: var(--secondaryTextColor);
   --fg: #2a2d33;
+  --form: transparent;
   --highlight: #414449;
   --navBackground: #2a2d33;
   --primaryTextColor: #f8f9fd;

@@ -8,12 +8,14 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 type FormInputProps = {
   Icon?: IconType | undefined;
+  label?: boolean;
   placeholder: string;
   error?: string | undefined;
   type?: "text" | "password" | "number" | undefined;
 };
 const FormInput = ({
   Icon,
+  label,
   placeholder,
   error,
   type = "text",
@@ -29,9 +31,11 @@ const FormInput = ({
 
   return (
     <div className="relative w-full">
-      <span className="absolute -top-6 left-0 text-xs font-medium text-PrimaryTextColor">
-        {placeholder}
-      </span>
+      {label && (
+        <span className="absolute -top-6 left-0 text-xs font-medium text-PrimaryTextColor">
+          {placeholder}
+        </span>
+      )}
       <div
         className={classNames({
           "form-input": true,

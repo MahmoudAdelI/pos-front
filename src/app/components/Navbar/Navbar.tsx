@@ -47,9 +47,9 @@ const Navbar = ({ token }: { token: string | undefined }) => {
   return (
     <nav
       className={classNames({
-        "sticky top-0 flex h-screen flex-col justify-between border-r border-navBorder bg-navBackground px-5 pb-8 text-xl leading-none transition-all duration-300":
+        "sticky top-0 flex h-screen flex-col justify-between border-r border-navBorder bg-navBackground px-5 pb-8 text-xl leading-none transition-all duration-200":
           true,
-        "w-64": expanded,
+        "shadow-wrapper w-64 sm:shadow-none": expanded,
         "w-20": !expanded,
       })}
     >

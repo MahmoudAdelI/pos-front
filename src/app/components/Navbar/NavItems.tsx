@@ -48,20 +48,19 @@ const NavItems = ({ expanded }: { expanded: boolean }) => {
             className="mb-2 flex gap-2 overflow-hidden rounded border-l-2 border-transparent p-2 hover:border-Primary hover:bg-highlight hover:text-PrimaryTextColor"
             onClick={() => item.haveSubMenue && toggleSubmenu(item.label)}
           >
-            <span className="flex-shrink-0 text-xl group-hover:text-Icons">
-              <item.icon />
-            </span>
+            <div
+              className="flex flex-1 gap-2"
+              onClick={() => {
+                if (pathname !== item.href) {
+                  router.push(item.href);
+                }
+              }}
+            >
+              <span className="flex-shrink-0 text-xl group-hover:text-Icons">
+                <item.icon />
+              </span>
 
-            <div>
-              <h2
-                onClick={() => {
-                  if (pathname !== item.href) {
-                    router.push(item.href);
-                  }
-                }}
-              >
-                {item.label}
-              </h2>
+              <h2>{item.label}</h2>
             </div>
 
             {item.haveSubMenue && expanded && (

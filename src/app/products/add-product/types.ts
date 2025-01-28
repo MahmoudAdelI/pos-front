@@ -1,8 +1,6 @@
 import { z } from "zod";
-import { categoriesType, brandsType, unitsType } from "./page";
 
 export type AddProductFormProps = {
-  categories: categoriesType;
   brands: brandsType;
   units: unitsType;
   token: string;
@@ -25,3 +23,26 @@ export const AddProductFormSchema = z.object({
     .nonempty(),
 });
 export type AddProductFormType = z.infer<typeof AddProductFormSchema>;
+export const brandsSchema = z.array(
+  z.object({
+    id: z.string(),
+    name: z.string(),
+  }),
+);
+export type brandsType = z.infer<typeof brandsSchema>;
+
+export const categoriesSchema = z.array(
+  z.object({
+    id: z.string(),
+    name: z.string(),
+  }),
+);
+export type CategoriesType = z.infer<typeof categoriesSchema>;
+
+export const unitsSchema = z.array(
+  z.object({
+    id: z.string(),
+    name: z.string(),
+  }),
+);
+export type unitsType = z.infer<typeof unitsSchema>;

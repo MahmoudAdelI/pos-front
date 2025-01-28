@@ -9,10 +9,14 @@ export default {
   darkMode: ["class", "class"],
   theme: {
     extend: {
+      boxShadow: {
+        wrapper: "0 0 0 100vmax rgba(0, 0, 0, 0.5)", // Solid shadow extending to full screen
+      },
       colors: {
         Primary: "var(--primary)",
         Bg: "var(--bg)",
         Fg: "var(--fg)",
+        form: "var(--form)",
         PrimaryTextColor: "var(--primaryTextColor)",
         SecondaryTextColor: "var(--secondaryTextColor)",
         Icons: "var(--icons)",
