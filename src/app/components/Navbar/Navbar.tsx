@@ -47,14 +47,14 @@ const Navbar = ({ token }: { token: string | undefined }) => {
   return (
     <nav
       className={classNames({
-        "sticky top-0 flex h-screen flex-col justify-between border-r border-navBorder bg-navBackground px-5 pb-8 text-xl leading-none transition-all duration-200":
+        "sticky top-0 flex h-screen flex-col justify-between border-r border-navBorder px-5 pb-8 text-xl leading-none transition-all duration-200":
           true,
-        "shadow-wrapper w-64 sm:shadow-none": expanded,
+        "w-64 shadow-wrapper sm:shadow-none": expanded,
         "w-20": !expanded,
       })}
     >
       <button
-        className="absolute -right-[17px] top-16 rounded-full border border-navBorder bg-inherit p-2 shadow-md transition-transform duration-300 hover:scale-110"
+        className="absolute -right-[17px] top-16 rounded-full border border-navBorder bg-form p-2 shadow-md transition-transform duration-300 hover:scale-110"
         onClick={() => setExpanded((prev) => !prev)}
       >
         {expanded ? (

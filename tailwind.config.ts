@@ -15,7 +15,7 @@ export default {
       colors: {
         Primary: "var(--primary)",
         Bg: "var(--bg)",
-        Fg: "var(--fg)",
+        input_color: "var(--input)",
         form: "var(--form)",
         PrimaryTextColor: "var(--primaryTextColor)",
         SecondaryTextColor: "var(--secondaryTextColor)",
@@ -29,6 +29,7 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         buttonPending: "var(--buttonPending)",
+        skeleton: "var(--skeleton)",
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",

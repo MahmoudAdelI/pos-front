@@ -1,7 +1,0 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-.form {
-  @apply flex flex-col items-center justify-center gap-8 rounded-md border border-OutlineColor p-4 shadow-xl motion-translate-y-in-50 motion-opacity-in-0 motion-duration-1000 motion-delay-500 md:p-8;
-}

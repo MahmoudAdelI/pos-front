@@ -37,7 +37,7 @@ const CustomSelect = ({
           >
             <SelectTrigger
               className={classNames({
-                "relative border border-navBorder bg-navBackground text-SecondaryTextColor focus:border-label focus:ring-0":
+                "bg-input_color relative border border-navBorder text-SecondaryTextColor focus:border-label focus:ring-0":
                   true,
                 "border-Alert": error,
               })}
@@ -47,7 +47,7 @@ const CustomSelect = ({
                 {label}
               </span>
             </SelectTrigger>
-            <SelectContent className="border-navBorder bg-navBackground text-SecondaryTextColor">
+            <SelectContent className="border-navBorder bg-form text-SecondaryTextColor">
               <SelectGroup>{children}</SelectGroup>
             </SelectContent>
           </Select>

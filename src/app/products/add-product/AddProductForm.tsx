@@ -18,6 +18,9 @@ import {
   categoriesSchema,
   CategoriesType,
 } from "./types";
+import { Skeleton } from "@/components/ui/skeleton";
+import { promise } from "zod";
+import { resolve } from "path";
 
 const AddProductForm = ({ brands, units, token }: AddProductFormProps) => {
   const [pending, setPending] = useState(false);
@@ -50,7 +53,7 @@ const AddProductForm = ({ brands, units, token }: AddProductFormProps) => {
             categoriesResponse.data,
           );
           if (parsedData.success) {
-            console.log("parsedData: ", parsedData.data);
+            // console.log("parsedData: ", parsedData.data);
             setCategories(parsedData.data);
           }
         } catch (error) {
@@ -66,7 +69,7 @@ const AddProductForm = ({ brands, units, token }: AddProductFormProps) => {
       fetchCategories();
     }
   }, [currentBrand]);
-  console.log("categories: ", categories);
+  // console.log("categories: ", categories);
   // const router = useRouter();
   const onSubmit = handleSubmit(async (data) => {
     try {
@@ -93,7 +96,6 @@ const AddProductForm = ({ brands, units, token }: AddProductFormProps) => {
       setPending(false);
     }
   });
-
   // console.log("test this:", errors.categoryId?.message);
   return (
     <>

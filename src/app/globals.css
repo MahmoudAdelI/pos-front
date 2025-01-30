@@ -6,7 +6,7 @@
   --primary: #5046e5;
   --label: #5046e5;
   --bg: #f9f9f9;
-  --fg: #eef2fe;
+  --input: #ffffff;
   --form: #ffffff;
   --highlight: #eef2fe;
   --navBackground: #ffffff;
@@ -17,26 +17,28 @@
   --alert: #d61111;
   --navBorder: #75757545;
   --buttonPending: #5146e5d3;
+  --skeleton: #f0f0f0;
 }
 [data-theme="dark"] {
-  --bg: #15181e;
+  --bg: #18191a;
   --label: var(--secondaryTextColor);
-  --fg: #2a2d33;
-  --form: transparent;
-  --highlight: #414449;
+  --input: #3a3b3c;
+  --form: #242526;
+  --highlight: #3a3b3c;
   --navBackground: #2a2d33;
   --primaryTextColor: #f8f9fd;
   --secondaryTextColor: #9fa4a8;
   --icons: #f8f9fd;
   --outlineColor: #64748b48;
   --alert: #e23b1d;
+  --skeleton: #3a3b3c;
 }
 .form {
-  @apply flex flex-col items-center justify-center gap-8 rounded-md border border-OutlineColor p-4 shadow-xl motion-translate-y-in-50 motion-opacity-in-0 motion-duration-1000 motion-delay-500 md:p-8;
+  @apply flex flex-col items-center justify-center gap-8 rounded-md border-OutlineColor bg-form p-4 shadow-xl motion-translate-y-in-50 motion-opacity-in-0 motion-duration-1000 motion-delay-500 md:p-8;
 }
 
 .form-input {
-  @apply flex h-9 appearance-none items-center gap-1 rounded-md border border-navBorder bg-navBackground px-3 py-2 text-SecondaryTextColor caret-OutlineColor shadow-sm outline-1 transition-all focus-within:border-label;
+  @apply flex h-9 appearance-none items-center gap-1 rounded-md border border-navBorder bg-input_color px-3 py-2 text-SecondaryTextColor caret-OutlineColor shadow-sm outline-1 transition-all focus-within:border-label;
 }
 
 .form-input-error {

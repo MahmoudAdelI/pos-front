@@ -10,7 +10,7 @@ import { useForm } from "react-hook-form";
 import { MdErrorOutline } from "react-icons/md";
 import { TbLockPassword, TbUser } from "react-icons/tb";
 import FormInput from "./FormInput";
-import "./LoginForm.css";
+// import "./LoginForm.css";
 import { LoginFormSchema, LoginForm as LoginFormType } from "./types";
 
 const LoginForm = () => {
