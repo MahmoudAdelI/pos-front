@@ -37,7 +37,7 @@ const CustomSelect = ({
           >
             <SelectTrigger
               className={classNames({
-                "bg-input_color relative border border-navBorder text-SecondaryTextColor focus:border-label focus:ring-0":
+                "relative border border-navBorder bg-input_color text-SecondaryTextColor focus:border-label focus:ring-0":
                   true,
                 "border-Alert": error,
               })}

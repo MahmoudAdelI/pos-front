@@ -4,7 +4,7 @@ import { FaUsers, FaUsersCog } from "react-icons/fa";
 import { IoCart, IoHomeSharp } from "react-icons/io5";
 import { IoIosArrowDown } from "react-icons/io";
 import classNames from "classnames";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { MdEdit } from "react-icons/md";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -45,7 +45,12 @@ const NavItems = ({ expanded }: { expanded: boolean }) => {
           className="group mb-2 flex w-full cursor-pointer flex-col rounded text-SecondaryTextColor transition-all duration-300"
         >
           <div
-            className="mb-2 flex gap-2 overflow-hidden rounded border-l-2 border-transparent p-2 hover:border-Primary hover:bg-highlight hover:text-PrimaryTextColor"
+            className={classNames({
+              "mb-2 flex gap-2 overflow-hidden rounded border-l-2 border-transparent p-2 hover:border-Primary hover:bg-highlight hover:text-PrimaryTextColor":
+                true,
+              "!border-Primary bg-highlight text-PrimaryTextColor":
+                pathname === item.href,
+            })}
             onClick={() => item.haveSubMenue && toggleSubmenu(item.label)}
           >
             <div
@@ -56,7 +61,12 @@ const NavItems = ({ expanded }: { expanded: boolean }) => {
                 }
               }}
             >
-              <span className="flex-shrink-0 text-xl group-hover:text-Icons">
+              <span
+                className={classNames({
+                  "flex-shrink-0 text-xl group-hover:text-Icons": true,
+                  "text-Icons": pathname === item.href,
+                })}
+              >
                 <item.icon />
               </span>
 

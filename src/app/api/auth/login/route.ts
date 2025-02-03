@@ -10,12 +10,12 @@ export async function POST(request: NextRequest) {
     if (!userLogin.success)
       return NextResponse.json(
         { error: "Invalid input data", details: userLogin.error.errors },
-        { status: 400 }
+        { status: 400 },
       );
 
     const res = await axios.post(
       "http://localhost:5091/api/Auth/login",
-      userLogin.data
+      userLogin.data,
     );
 
     const { token } = res.data;
@@ -28,8 +28,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
-      { error: "Invalid email or password" },
-      { status: 401 }
+      { error: "Invalid username or password" },
+      { status: 401 },
     );
   }
 }

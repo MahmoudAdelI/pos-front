@@ -7,10 +7,11 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import classNames from "classnames";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import FormInput from "../login/login-form/FormInput";
+import { categorySchema } from "../products/add-product/types";
+import FormInput from "./FormInput";
 
 export type PropertyType = "brand" | "category" | "unit";
 const createValidationSchema = (type: PropertyType) =>
@@ -22,13 +23,23 @@ const createValidationSchema = (type: PropertyType) =>
         `${type === "brand" ? "Brand" : type === "category" ? "Category" : "Unit"} name must be at least 2 characters`,
       )
       .max(50),
-    companyId: z.string().optional(),
+    // companyId: z.string().optional(),
   });
 interface PropertyModalProps {
   mode: PropertyType;
   isOpen: boolean;
   onClose: () => void;
   token: string;
+  currentBrand: string;
+  // setCategories: Dispatch<
+  //   SetStateAction<
+  //     | {
+  //         name: string;
+  //         id: string;
+  //       }[]
+  //     | null
+  //   >
+  // >;
 }
 
 const getEndpoint = (mode: PropertyType) => {
@@ -44,7 +55,14 @@ const titleMap = {
   category: "Add New Category",
   unit: "Add New Unit",
 };
-const Modal = ({ mode, isOpen, onClose, token }: PropertyModalProps) => {
+const Modal = ({
+  mode,
+  isOpen,
+  onClose,
+  token,
+  currentBrand,
+  // setCategories,
+}: PropertyModalProps) => {
   // console.log("token: ", token);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -56,9 +74,23 @@ const Modal = ({ mode, isOpen, onClose, token }: PropertyModalProps) => {
     try {
       setIsLoading(true);
       const endpoint = getEndpoint(mode);
-      await axios.post(endpoint, data, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await axios.post(
+        endpoint,
+        mode === "category" ? { ...data, companyId: currentBrand } : data,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+      if (mode === "category") {
+        const { data } = categorySchema.safeParse(res.data);
+        console.log(res);
+        // if (data) {
+        //   setCategories((prev) => [
+        //     ...(prev || []),
+        //     { name: data.name, id: data.id },
+        //   ]);
+        // }
+      }
       console.log(data);
       onClose();
       form.reset();
@@ -74,7 +106,7 @@ const Modal = ({ mode, isOpen, onClose, token }: PropertyModalProps) => {
   }, [mode, form]);
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="border-none bg-Bg">
+      <DialogContent className="border-none bg-form">
         <DialogHeader>
           <DialogTitle>{titleMap[mode]}</DialogTitle>
         </DialogHeader>
@@ -85,14 +117,7 @@ const Modal = ({ mode, isOpen, onClose, token }: PropertyModalProps) => {
             type="text"
             {...form.register("name")}
           />
-          {mode === "category" && (
-            <FormInput
-              placeholder="company"
-              error={form.formState.errors.companyId?.message}
-              type="text"
-              {...form.register("companyId")}
-            />
-          )}
+
           <div className="mt-4 flex justify-end gap-2">
             <button
               disabled={isLoading}

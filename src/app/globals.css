@@ -38,11 +38,11 @@
 }
 
 .form-input {
-  @apply flex h-9 appearance-none items-center gap-1 rounded-md border border-navBorder bg-input_color px-3 py-2 text-SecondaryTextColor caret-OutlineColor shadow-sm outline-1 transition-all focus-within:border-label;
+  @apply flex appearance-none items-center gap-1 rounded-md border border-navBorder bg-input_color px-3 py-2 text-SecondaryTextColor caret-OutlineColor shadow-sm ring-violet-500/30 transition-all focus-within:border-label focus-within:ring;
 }
 
 .form-input-error {
-  @apply border border-Alert !outline-none focus-within:border-Alert;
+  @apply border border-Alert !outline-none ring-red-500/30 focus-within:border-Alert;
 }
 .label {
   @apply absolute left-0 -translate-y-8 text-sm text-label duration-100 ease-linear peer-placeholder-shown:translate-y-0 peer-placeholder-shown:text-base peer-placeholder-shown:text-inherit peer-focus:-translate-y-8 peer-focus:text-sm peer-focus:text-label;

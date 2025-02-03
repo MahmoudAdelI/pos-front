@@ -9,8 +9,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { MdErrorOutline } from "react-icons/md";
 import { TbLockPassword, TbUser } from "react-icons/tb";
-import FormInput from "./FormInput";
-// import "./LoginForm.css";
+import FormInput from "../../components/FormInput";
 import { LoginFormSchema, LoginForm as LoginFormType } from "./types";
 
 const LoginForm = () => {
@@ -33,20 +32,21 @@ const LoginForm = () => {
       router.push("/");
       router.refresh();
     } catch (error) {
-      setPending(false);
       if (axios.isAxiosError(error) && error.response?.data) {
         const errorMessage =
           error.response.data.error || "An unexpected error occurred";
         setAuthError(errorMessage);
         reset();
       }
+    } finally {
+      setPending(false);
     }
   });
 
   return (
     <div className="h-auto w-full lg:max-w-[28rem]">
       {authError && (
-        <div className="motion-preset-fade-lg mb-4 flex w-full items-start gap-3 rounded-md bg-red-100 p-3">
+        <div className="motion-preset-fade-lg mb-4 flex w-full items-start gap-3 rounded-md bg-red-500/30 p-3">
           <span className="text-xl text-Alert">
             <MdErrorOutline />
           </span>

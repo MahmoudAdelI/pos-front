@@ -1,31 +1,22 @@
 "use client";
 import CustomSelect from "@/app/components/CustomSelect";
-import FormInput from "@/app/login/login-form/FormInput";
+import FormInput from "@/app/components/FormInput";
+import Modal, { PropertyType } from "@/app/components/Modal";
+import { fetchBrands, fetchCategories, fetchUnits } from "@/app/utils/api";
 import { SelectItem } from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import classNames from "classnames";
-// import { useRouter } from "next/navigation";
-import Modal, { PropertyType } from "@/app/components/Modal";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { MdAdd } from "react-icons/md";
 import { toast } from "sonner";
-import {
-  AddProductFormProps,
-  AddProductFormSchema,
-  AddProductFormType,
-  categoriesSchema,
-  CategoriesType,
-} from "./types";
-import { Skeleton } from "@/components/ui/skeleton";
-import { promise } from "zod";
-import { resolve } from "path";
+import { AddProductFormSchema, AddProductFormType } from "./types";
 
-const AddProductForm = ({ brands, units, token }: AddProductFormProps) => {
+const AddProductForm = ({ token }: { token: string }) => {
   const [pending, setPending] = useState(false);
   const [activeModal, setActiveModal] = useState<PropertyType | null>(null);
-  const [categories, setCategories] = useState<CategoriesType | null>(null);
   const {
     handleSubmit,
     register,
@@ -37,40 +28,40 @@ const AddProductForm = ({ brands, units, token }: AddProductFormProps) => {
     resolver: zodResolver(AddProductFormSchema),
   });
   const currentBrand = watch("companyId");
-  // console.log("current brand: ", currentBrand);
+  const {
+    data: brands,
+    isPending: brandsIsPending,
+    error: brandsError,
+  } = useQuery({
+    queryKey: ["brands"],
+    queryFn: () => fetchBrands(token),
+  });
+
+  const {
+    data: units,
+    isPending: unitsIsPending,
+    error: unitssError,
+  } = useQuery({
+    queryKey: ["units"],
+    queryFn: () => fetchUnits(token),
+  });
+
+  const {
+    data: categories,
+    isPending: categoriesIsPending,
+    error: categoriesError,
+  } = useQuery({
+    queryKey: ["categories", currentBrand],
+    queryFn: () => fetchCategories(currentBrand, token),
+    enabled: !!currentBrand,
+  });
+
   useEffect(() => {
-    if (currentBrand) {
-      const fetchCategories = async () => {
-        // console.log("ran");
-        try {
-          const categoriesResponse = await axios.get(
-            `http://localhost:5091/api/Type/GetByCompanyId?companyId=${currentBrand}`,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            },
-          );
-          const parsedData = categoriesSchema.safeParse(
-            categoriesResponse.data,
-          );
-          if (parsedData.success) {
-            // console.log("parsedData: ", parsedData.data);
-            setCategories(parsedData.data);
-          }
-        } catch (error) {
-          if (axios.isAxiosError(error)) {
-            const errorMessage =
-              error.response?.data.errors.Name ||
-              "An unexpected error occurred";
-            console.error(error);
-            toast.error(errorMessage);
-          }
-        }
-      };
-      fetchCategories();
-    }
-  }, [currentBrand]);
-  // console.log("categories: ", categories);
-  // const router = useRouter();
+    if (categoriesError) handleError(categoriesError);
+    if (brandsError) handleError(brandsError);
+    if (unitssError) handleError(unitssError);
+  }, [categoriesError, brandsError, unitssError]);
+
   const onSubmit = handleSubmit(async (data) => {
     try {
       setPending(true);
@@ -96,7 +87,6 @@ const AddProductForm = ({ brands, units, token }: AddProductFormProps) => {
       setPending(false);
     }
   });
-  // console.log("test this:", errors.categoryId?.message);
   return (
     <>
       <h2 className="mb-8 text-3xl font-semibold">Add Product</h2>
@@ -111,7 +101,7 @@ const AddProductForm = ({ brands, units, token }: AddProductFormProps) => {
           placeholder="Name"
           {...register("name")}
         />
-        <div className="relative flex gap-4">
+        <div className="flex gap-4">
           <div className="flex w-full gap-1">
             <CustomSelect
               name="companyId"
@@ -119,11 +109,11 @@ const AddProductForm = ({ brands, units, token }: AddProductFormProps) => {
               label="Brand"
               error={errors.companyId?.message}
             >
-              {brands.map((brand) => (
+              {brands?.map((brand) => (
                 <SelectItem
                   key={brand.id}
                   value={brand.id}
-                  className="hover:!bg-highlight hover:!text-PrimaryTextColor"
+                  className="hover:!bg-highlight hover:!text-PrimaryTextColor focus:bg-highlight focus:text-PrimaryTextColor"
                 >
                   {brand.name}
                 </SelectItem>
@@ -149,22 +139,23 @@ const AddProductForm = ({ brands, units, token }: AddProductFormProps) => {
                 <SelectItem
                   key={category.id}
                   value={category.id}
-                  className="hover:!bg-highlight hover:!text-PrimaryTextColor"
+                  className="hover:!bg-highlight hover:!text-PrimaryTextColor focus:bg-highlight focus:text-PrimaryTextColor"
                 >
                   {category.name}
                 </SelectItem>
               ))}
             </CustomSelect>
             <button
+              disabled={!currentBrand}
               type="button"
               onClick={() => setActiveModal("category")}
-              className="mt-2 h-fit cursor-pointer rounded text-xl text-SecondaryTextColor"
+              className="mt-2 h-fit rounded text-xl text-SecondaryTextColor disabled:cursor-not-allowed disabled:opacity-50"
             >
               <MdAdd />
             </button>
           </div>
         </div>
-        <div className="relative flex gap-4">
+        <div className="flex items-baseline gap-4">
           <div className="flex w-full gap-1">
             <CustomSelect
               name="unitId"
@@ -172,11 +163,11 @@ const AddProductForm = ({ brands, units, token }: AddProductFormProps) => {
               label="Unit"
               error={errors.unitId?.message}
             >
-              {units.map((unit) => (
+              {units?.map((unit) => (
                 <SelectItem
                   key={unit.id}
                   value={unit.id}
-                  className="hover:!bg-highlight hover:!text-PrimaryTextColor"
+                  className="hover:!bg-highlight hover:!text-PrimaryTextColor focus:bg-highlight focus:text-PrimaryTextColor"
                 >
                   {unit.name}
                 </SelectItem>
@@ -230,9 +221,19 @@ const AddProductForm = ({ brands, units, token }: AddProductFormProps) => {
         isOpen={!!activeModal}
         onClose={() => setActiveModal(null)}
         token={token}
+        currentBrand={currentBrand}
+        // setCategories={setCategories}
       />
     </>
   );
 };
-
+const handleError = (error: Error | null) => {
+  if (error) {
+    console.error(error);
+    if (axios.isAxiosError(error)) {
+      const errorMessage = error.message || "An unexpected error occurred";
+      toast.error(errorMessage);
+    }
+  }
+};
 export default AddProductForm;

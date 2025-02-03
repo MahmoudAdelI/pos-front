@@ -1,10 +1,5 @@
 import { z } from "zod";
 
-export type AddProductFormProps = {
-  brands: brandsType;
-  units: unitsType;
-  token: string;
-};
 export const AddProductFormSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
   buyingPrice: z.coerce
@@ -31,12 +26,11 @@ export const brandsSchema = z.array(
 );
 export type brandsType = z.infer<typeof brandsSchema>;
 
-export const categoriesSchema = z.array(
-  z.object({
-    id: z.string(),
-    name: z.string(),
-  }),
-);
+export const categorySchema = z.object({
+  id: z.string(),
+  name: z.string(),
+});
+export const categoriesSchema = z.array(categorySchema);
 export type CategoriesType = z.infer<typeof categoriesSchema>;
 
 export const unitsSchema = z.array(

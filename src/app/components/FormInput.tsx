@@ -51,7 +51,7 @@ const FormInput = ({
             type={inputType}
             placeholder={placeholder}
             autoComplete="off"
-            className="peer flex-1 bg-transparent outline-none"
+            className="peer flex-1 bg-transparent outline-none placeholder:text-sm placeholder:text-SecondaryTextColor"
           />
         </div>
 
