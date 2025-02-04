@@ -2,10 +2,12 @@
 import CustomSelect from "@/app/components/CustomSelect";
 import FormInput from "@/app/components/FormInput";
 import Modal, { PropertyType } from "@/app/components/Modal";
-import { fetchBrands, fetchCategories, fetchUnits } from "@/app/utils/api";
 import { SelectItem } from "@/components/ui/select";
+import useAddProduct from "@/hooks/useAddProduct";
+import useBrands from "@/hooks/useBrands";
+import useCategories from "@/hooks/useCategories";
+import useUnits from "@/hooks/useUnits";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
@@ -15,7 +17,6 @@ import { toast } from "sonner";
 import { AddProductFormSchema, AddProductFormType } from "./types";
 
 const AddProductForm = ({ token }: { token: string }) => {
-  const [pending, setPending] = useState(false);
   const [activeModal, setActiveModal] = useState<PropertyType | null>(null);
   const {
     handleSubmit,
@@ -32,60 +33,29 @@ const AddProductForm = ({ token }: { token: string }) => {
     data: brands,
     isPending: brandsIsPending,
     error: brandsError,
-  } = useQuery({
-    queryKey: ["brands"],
-    queryFn: () => fetchBrands(token),
-  });
+  } = useBrands(token);
 
   const {
     data: units,
     isPending: unitsIsPending,
     error: unitssError,
-  } = useQuery({
-    queryKey: ["units"],
-    queryFn: () => fetchUnits(token),
-  });
+  } = useUnits(token);
 
   const {
     data: categories,
     isPending: categoriesIsPending,
     error: categoriesError,
-  } = useQuery({
-    queryKey: ["categories", currentBrand],
-    queryFn: () => fetchCategories(currentBrand, token),
-    enabled: !!currentBrand,
-  });
-
+  } = useCategories(currentBrand, token);
   useEffect(() => {
     if (categoriesError) handleError(categoriesError);
     if (brandsError) handleError(brandsError);
     if (unitssError) handleError(unitssError);
   }, [categoriesError, brandsError, unitssError]);
 
+  const mutation = useAddProduct(reset, token);
+
   const onSubmit = handleSubmit(async (data) => {
-    try {
-      setPending(true);
-      const response = await axios.post(
-        "http://localhost:5091/api/Product",
-        data,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
-      if (response.status === 200) {
-        toast.success("Product has been added successfully");
-      }
-      reset();
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const errorMessage =
-          error.response?.data.errors.Name || "An unexpected error occurred";
-        console.error(error);
-        toast.error(errorMessage);
-      }
-    } finally {
-      setPending(false);
-    }
+    mutation.mutate(data);
   });
   return (
     <>
@@ -205,12 +175,12 @@ const AddProductForm = ({ token }: { token: string }) => {
           {...register("buyingPrice")}
         />
         <button
-          disabled={pending}
+          disabled={mutation.isPending}
           type="submit"
           className={classNames({
             "w-32 rounded-md bg-Primary px-6 py-2 text-white shadow-md active:translate-y-[1px] active:scale-[.97] active:bg-buttonPending active:shadow-sm":
               true,
-            "bg-buttonPending": pending,
+            "bg-buttonPending": mutation.isPending,
           })}
         >
           Add

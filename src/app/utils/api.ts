@@ -1,7 +1,8 @@
 import axios from "axios";
 import {
-  categoriesSchema,
+  AddProductFormType,
   brandsSchema,
+  categoriesSchema,
   unitsSchema,
 } from "../products/add-product/types";
 
@@ -32,3 +33,7 @@ export const fetchUnits = async (token: string) => {
   if (!parsedData.success) throw new Error("An unexpected error occured");
   return parsedData.data;
 };
+export const addProduct = (data: AddProductFormType, token: string) =>
+  axios.post("http://localhost:5091/api/Product", data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
