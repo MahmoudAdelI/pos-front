@@ -57,6 +57,7 @@ const AddProductForm = ({ token }: { token: string }) => {
   const onSubmit = handleSubmit(async (data) => {
     mutation.mutate(data);
   });
+  console.log("from the form: ", activeModal);
   return (
     <>
       <h2 className="mb-8 text-3xl font-semibold">Add Product</h2>
@@ -91,7 +92,7 @@ const AddProductForm = ({ token }: { token: string }) => {
             </CustomSelect>
             <button
               type="button"
-              onClick={() => setActiveModal("brand")}
+              onClick={() => setActiveModal("brands")}
               className="mt-2 h-fit cursor-pointer rounded text-xl text-SecondaryTextColor"
             >
               <MdAdd />
@@ -118,7 +119,7 @@ const AddProductForm = ({ token }: { token: string }) => {
             <button
               disabled={!currentBrand}
               type="button"
-              onClick={() => setActiveModal("category")}
+              onClick={() => setActiveModal("categories")}
               className="mt-2 h-fit rounded text-xl text-SecondaryTextColor disabled:cursor-not-allowed disabled:opacity-50"
             >
               <MdAdd />
@@ -145,7 +146,7 @@ const AddProductForm = ({ token }: { token: string }) => {
             </CustomSelect>
             <button
               type="button"
-              onClick={() => setActiveModal("unit")}
+              onClick={() => setActiveModal("units")}
               className="mt-2 h-fit cursor-pointer rounded text-xl text-SecondaryTextColor"
             >
               <MdAdd />
@@ -187,17 +188,16 @@ const AddProductForm = ({ token }: { token: string }) => {
         </button>
       </form>
       <Modal
-        mode={activeModal ?? "brand"}
+        mode={activeModal ?? "brands"}
         isOpen={!!activeModal}
         onClose={() => setActiveModal(null)}
         token={token}
         currentBrand={currentBrand}
-        // setCategories={setCategories}
       />
     </>
   );
 };
-const handleError = (error: Error | null) => {
+export const handleError = (error: Error | null) => {
   if (error) {
     console.error(error);
     if (axios.isAxiosError(error)) {

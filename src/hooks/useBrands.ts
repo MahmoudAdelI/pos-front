@@ -1,4 +1,4 @@
-import { fetchBrands } from "@/app/utils/api";
+import { fetchBrands } from "@/utils/api";
 import { useQuery } from "@tanstack/react-query";
 
 const useBrands = (token: string) => {

@@ -4,7 +4,7 @@ import {
   brandsSchema,
   categoriesSchema,
   unitsSchema,
-} from "../products/add-product/types";
+} from "../app/products/add-product/types";
 
 export const fetchCategories = async (companyId: string, token: string) => {
   const { data } = await axios.get(

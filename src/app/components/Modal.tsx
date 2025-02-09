@@ -5,55 +5,45 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import classNames from "classnames";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { categorySchema } from "../products/add-product/types";
 import FormInput from "./FormInput";
+import { handleError } from "../products/add-product/AddProductForm";
+import { toast } from "sonner";
 
-export type PropertyType = "brand" | "category" | "unit";
+export type PropertyType = "brands" | "categories" | "units";
 const createValidationSchema = (type: PropertyType) =>
   z.object({
     name: z
       .string()
       .min(
         2,
-        `${type === "brand" ? "Brand" : type === "category" ? "Category" : "Unit"} name must be at least 2 characters`,
+        `${type === "brands" ? "Brand" : type === "categories" ? "Category" : "Unit"} name must be at least 2 characters`,
       )
       .max(50),
-    // companyId: z.string().optional(),
   });
+
 interface PropertyModalProps {
   mode: PropertyType;
   isOpen: boolean;
   onClose: () => void;
   token: string;
   currentBrand: string;
-  // setCategories: Dispatch<
-  //   SetStateAction<
-  //     | {
-  //         name: string;
-  //         id: string;
-  //       }[]
-  //     | null
-  //   >
-  // >;
 }
 
-const getEndpoint = (mode: PropertyType) => {
-  const endpoints = {
-    brand: "http://localhost:5091/api/Company",
-    category: "http://localhost:5091/api/Type",
-    unit: "http://localhost:5091/api/Unit",
-  };
-  return endpoints[mode];
+const endpoints = {
+  brands: "http://localhost:5091/api/Company",
+  categories: "http://localhost:5091/api/Type",
+  units: "http://localhost:5091/api/Unit",
 };
 const titleMap = {
-  brand: "Add New Brand",
-  category: "Add New Category",
-  unit: "Add New Unit",
+  brands: "Add New Brand",
+  categories: "Add New Category",
+  units: "Add New Unit",
 };
 const Modal = ({
   mode,
@@ -61,41 +51,54 @@ const Modal = ({
   onClose,
   token,
   currentBrand,
-  // setCategories,
 }: PropertyModalProps) => {
-  // console.log("token: ", token);
   const [isLoading, setIsLoading] = useState(false);
-
+  console.log("from the mode: ", mode);
+  console.log("from the mode: ", endpoints[mode]);
   const form = useForm<z.infer<ReturnType<typeof createValidationSchema>>>({
     resolver: zodResolver(createValidationSchema(mode)),
   });
+  const queryClient = useQueryClient();
+  // const mutation = useMutation({
+  //   mutationFn: async (
+  //     data: z.infer<ReturnType<typeof createValidationSchema>>,
+  //   ) =>
+  //     await axios.post(
+  //       endpoints[mode],
+  //       // data,
+  //       mode === "categories" ? { ...data, companyId: currentBrand } : data,
+  //       {
+  //         headers: { Authorization: `Bearer ${token}` },
+  //       },
+  //     ),
+  //   onSuccess: () => queryClient.invalidateQueries({ queryKey: [mode] }),
 
+  // });
   const onSubmit = form.handleSubmit(async (data) => {
+    // mutation.mutate(data);
+    // onClose();
+    // form.reset();
     try {
       setIsLoading(true);
-      const endpoint = getEndpoint(mode);
       const res = await axios.post(
-        endpoint,
-        mode === "category" ? { ...data, companyId: currentBrand } : data,
+        endpoints[mode],
+        mode === "categories" ? { ...data, companyId: currentBrand } : data,
         {
           headers: { Authorization: `Bearer ${token}` },
         },
       );
-      if (mode === "category") {
-        const { data } = categorySchema.safeParse(res.data);
-        console.log(res);
-        // if (data) {
-        //   setCategories((prev) => [
-        //     ...(prev || []),
-        //     { name: data.name, id: data.id },
-        //   ]);
-        // }
+      if (res.status === 200) {
+        queryClient.invalidateQueries({ queryKey: [mode] });
       }
-      console.log(data);
+
       onClose();
       form.reset();
     } catch (error) {
       console.error("Submission failed:", error);
+      if (axios.isAxiosError(error)) {
+        const errorMessage = error.message || "An unexpected error occurred";
+        toast.error(errorMessage);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -112,7 +115,7 @@ const Modal = ({
         </DialogHeader>
         <form onSubmit={onSubmit} className="mt-4 flex flex-col gap-4">
           <FormInput
-            placeholder={mode}
+            placeholder={titleMap[mode]}
             error={form.formState.errors.name?.message}
             type="text"
             {...form.register("name")}

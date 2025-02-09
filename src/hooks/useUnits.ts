@@ -1,4 +1,4 @@
-import { fetchUnits } from "@/app/utils/api";
+import { fetchUnits } from "@/utils/api";
 import { useQuery } from "@tanstack/react-query";
 
 const useUnits = (token: string) => {

@@ -1,4 +1,4 @@
-import { fetchCategories } from "@/app/utils/api";
+import { fetchCategories } from "@/utils/api";
 import { useQuery } from "@tanstack/react-query";
 
 const useCategories = (currentBrand: string, token: string) => {
