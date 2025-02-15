@@ -17,7 +17,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const token = await getToken();
-  // console.log(token);
+  console.log(token);
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body className="flex min-h-screen bg-Bg text-PrimaryTextColor">

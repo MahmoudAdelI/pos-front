@@ -1,3 +1,4 @@
+import { productsSchema } from "@/app/products/types";
 import axios from "axios";
 import {
   AddProductFormType,
@@ -37,3 +38,12 @@ export const addProduct = (data: AddProductFormType, token: string) =>
   axios.post("http://localhost:5091/api/Product", data, {
     headers: { Authorization: `Bearer ${token}` },
   });
+
+export const fetchProducts = async (token: string) => {
+  const { data } = await axios.get("http://localhost:5091/api/Product/GetAll", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  const parsedData = productsSchema.safeParse(data);
+  if (!parsedData.success) throw new Error("An unexpected error occured");
+  return parsedData.data;
+};
