@@ -13,3 +13,22 @@ export const productSchema = z.object({
 export const productsSchema = z.array(productSchema);
 
 export type Product = z.infer<typeof productSchema>;
+export type InvoiceData = {
+  date: Date;
+  billDate?: Date;
+  paidUp?: number;
+  totalDiscount?: number;
+  totalAmount?: number;
+  invoiceItems: {
+    itemId: string;
+    quantity: number;
+    unitId?: string;
+    sellingPrice?: number;
+  }[];
+  clientId?: string;
+  employeeId?: string;
+};
+export type InvoiceContextType = {
+  invoiceData: InvoiceData;
+  setInvoiceData: React.Dispatch<React.SetStateAction<InvoiceData>>;
+};

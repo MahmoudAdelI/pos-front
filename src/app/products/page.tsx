@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import getToken from "../auth/getToken";
-import InvoiceHOC from "./InvoiceHOC";
+import Invoice from "./Invoice";
 
 const products = async () => {
   const token = await getToken();
@@ -8,7 +8,7 @@ const products = async () => {
   if (!token) {
     return notFound();
   }
-  return <InvoiceHOC token={token} />;
+  return <Invoice token={token} />;
 };
 
 export default products;
