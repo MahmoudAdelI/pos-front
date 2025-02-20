@@ -2,17 +2,32 @@
 import useProducts from "@/hooks/useProducts";
 import classNames from "classnames";
 import { notFound } from "next/navigation";
-import { Dispatch, SetStateAction, useState } from "react";
-import { Product } from "./types";
-type SelectedProduct = {
-  itemId: string;
-  quantity: number;
-};
-
-const ProductSelector = ({ token }: { token: string }) => {
-  const [selected, setSelected] = useState<SelectedProduct[] | null>(null);
+import {
+  Dispatch,
+  // ForwardedRef,
+  SetStateAction,
+  // useImperativeHandle,
+  useState,
+} from "react";
+// import { StepFormRef } from "./Invoice";
+import { InvoiceData, Product } from "./types";
+import { useInvoiceContext, useSelectedProductContext } from "./Invoice";
+type SelectedProduct = InvoiceData["invoiceItems"][0];
+const ProductSelector = ({
+  token,
+  // ref,
+}: {
+  token: string;
+  // ref: ForwardedRef<StepFormRef>;
+}) => {
+  // const { invoiceData, setInvoiceData } = useInvoiceContext();
+  // const [selected, setSelected] = useState<SelectedProduct[]>([]);
+  const { selectedProducts, setSelectedProducts } = useSelectedProductContext();
   const { data: products, isPending, error } = useProducts(token);
-
+  // useImperativeHandle(ref, () => ({
+  //   triggerValidation: async () => true,
+  //   isValid: true,
+  // }));
   {
     error && notFound();
   }
@@ -20,27 +35,27 @@ const ProductSelector = ({ token }: { token: string }) => {
     isPending && <h1>Loading...</h1>;
   }
   return (
-    <>
+    <div className="rounded-md">
       <h1 className="mb-4 text-2xl font-semibold">Products</h1>
 
-      <div className="flex flex-wrap gap-4">
+      <div className="flex flex-wrap justify-center gap-4">
         {products?.map((product) => (
           <ProductCard
             key={product.id}
             product={product}
-            isSelected={selected?.some((p) => p.itemId === product.id)}
-            setSelected={setSelected}
+            isSelected={selectedProducts?.some((p) => p.id === product.id)}
+            setSelected={setSelectedProducts}
           />
         ))}
       </div>
-    </>
+    </div>
   );
 };
 
 type ProductCardProps = {
   product: Product;
   isSelected: boolean | undefined;
-  setSelected: Dispatch<SetStateAction<SelectedProduct[] | null>>;
+  setSelected: Dispatch<SetStateAction<Product[]>>;
 };
 const ProductCard = ({
   product,
@@ -49,22 +64,16 @@ const ProductCard = ({
 }: ProductCardProps) => {
   const handleSelect = () => {
     isSelected
-      ? setSelected((prev) =>
-          prev ? prev.filter((p) => p.itemId !== product.id) : null,
-        )
-      : setSelected((prev) =>
-          prev
-            ? [...prev, { itemId: product.id, quantity: 1 }]
-            : [{ itemId: product.id, quantity: 1 }],
-        );
+      ? setSelected((prev) => prev.filter((p) => p.id !== product.id))
+      : setSelected((prev) => [...prev, product]);
   };
   return (
     <div
       onClick={handleSelect}
       className={classNames({
-        "relative flex h-60 w-60 flex-col overflow-hidden rounded-md border border-navBorder":
+        "relative flex h-52 w-52 flex-col overflow-hidden rounded-md border border-navBorder transition-all":
           true,
-        "!border-Primary after:absolute after:inset-0 after:h-60 after:w-60 after:bg-violet-700/10":
+        "!border-Primary after:absolute after:inset-0 after:h-52 after:w-52 after:bg-Primary after:opacity-5":
           isSelected,
       })}
     >

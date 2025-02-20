@@ -1,9 +1,9 @@
-import { useInvoiceContext } from "./Invoice";
+// import { useInvoiceContext } from "./Invoice";
 
 const Payment = () => {
-  const { invoiceData, setInvoiceData } = useInvoiceContext();
+  // const { invoiceData, setInvoiceData } = useInvoiceContext();
 
-  return <div>Payment</div>;
+  return <div className="text-2xl font-semibold">Payment</div>;
 };
 
 export default Payment;

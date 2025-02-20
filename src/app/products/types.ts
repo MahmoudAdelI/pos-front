@@ -32,3 +32,7 @@ export type InvoiceContextType = {
   invoiceData: InvoiceData;
   setInvoiceData: React.Dispatch<React.SetStateAction<InvoiceData>>;
 };
+export type SelectedProductContextType = {
+  selectedProducts: Product[];
+  setSelectedProducts: React.Dispatch<React.SetStateAction<Product[]>>;
+};

@@ -20,11 +20,11 @@ export default async function RootLayout({
   console.log(token);
   return (
     <html lang="en" suppressHydrationWarning={true}>
-      <body className="flex min-h-screen bg-Bg text-PrimaryTextColor">
+      <body className="flex bg-Bg text-PrimaryTextColor">
         <QueryClientProvider>
           <ThemeProvider>
             <Navbar token={token} />
-            <main className="mx-auto max-w-[80vw] flex-1 overflow-y-auto">
+            <main className="mx-auto flex-1 overflow-clip px-6">
               <Appbar />
               {children}
             </main>
