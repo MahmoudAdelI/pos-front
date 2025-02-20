@@ -5,7 +5,6 @@ export const productSchema = z.object({
   sellingPrice: z.number(),
   buyingPrice: z.number(),
   quantity: z.number(),
-  // notes: z.null(),
   categoryName: z.string(),
   companyName: z.string(),
   unitName: z.string(),
@@ -28,11 +27,8 @@ export type InvoiceData = {
   clientId?: string;
   employeeId?: string;
 };
-export type InvoiceContextType = {
-  invoiceData: InvoiceData;
-  setInvoiceData: React.Dispatch<React.SetStateAction<InvoiceData>>;
-};
+export type SelectedProduct = Product & { selectedCount: number };
 export type SelectedProductContextType = {
-  selectedProducts: Product[];
-  setSelectedProducts: React.Dispatch<React.SetStateAction<Product[]>>;
+  selectedProducts: SelectedProduct[];
+  setSelectedProducts: React.Dispatch<React.SetStateAction<SelectedProduct[]>>;
 };

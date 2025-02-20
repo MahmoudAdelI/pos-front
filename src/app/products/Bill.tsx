@@ -1,11 +1,26 @@
-import React from "react";
-import { useInvoiceContext, useSelectedProductContext } from "./Invoice";
-
+import { useEffect, useState } from "react";
+import { useSelectedProductContext } from "./Invoice";
+import { InvoiceData } from "./types";
+const initialInvoiceData: InvoiceData = {
+  date: new Date(),
+  invoiceItems: [],
+  employeeId: "",
+};
 const Bill = () => {
-  //   const { invoiceData } = useInvoiceContext();
+  const [invoiceData, setInvoiceData] =
+    useState<InvoiceData>(initialInvoiceData);
   const { selectedProducts } = useSelectedProductContext();
+  useEffect(() => {
+    setInvoiceData((prev) => ({
+      ...prev,
+      invoiceItems: selectedProducts.map((p) => ({
+        itemId: p.id,
+        quantity: p.selectedCount,
+      })),
+    }));
+  }, [selectedProducts]);
   return (
-    <div className="">
+    <>
       <h1 className="mb-4 text-2xl font-semibold">Current Bill</h1>
       <h2 className="text-md font-semibold">Items</h2>
       <ul className="">
@@ -18,7 +33,7 @@ const Bill = () => {
           </li>
         ))}
       </ul>
-    </div>
+    </>
   );
 };
 

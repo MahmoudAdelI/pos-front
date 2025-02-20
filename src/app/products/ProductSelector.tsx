@@ -2,32 +2,15 @@
 import useProducts from "@/hooks/useProducts";
 import classNames from "classnames";
 import { notFound } from "next/navigation";
-import {
-  Dispatch,
-  // ForwardedRef,
-  SetStateAction,
-  // useImperativeHandle,
-  useState,
-} from "react";
-// import { StepFormRef } from "./Invoice";
-import { InvoiceData, Product } from "./types";
-import { useInvoiceContext, useSelectedProductContext } from "./Invoice";
-type SelectedProduct = InvoiceData["invoiceItems"][0];
-const ProductSelector = ({
-  token,
-  // ref,
-}: {
-  token: string;
-  // ref: ForwardedRef<StepFormRef>;
-}) => {
-  // const { invoiceData, setInvoiceData } = useInvoiceContext();
-  // const [selected, setSelected] = useState<SelectedProduct[]>([]);
+import { Dispatch, SetStateAction } from "react";
+import { useSelectedProductContext } from "./Invoice";
+import { Product, SelectedProduct } from "./types";
+
+const ProductSelector = ({ token }: { token: string }) => {
   const { selectedProducts, setSelectedProducts } = useSelectedProductContext();
   const { data: products, isPending, error } = useProducts(token);
-  // useImperativeHandle(ref, () => ({
-  //   triggerValidation: async () => true,
-  //   isValid: true,
-  // }));
+  console.log(selectedProducts);
+
   {
     error && notFound();
   }
@@ -55,7 +38,7 @@ const ProductSelector = ({
 type ProductCardProps = {
   product: Product;
   isSelected: boolean | undefined;
-  setSelected: Dispatch<SetStateAction<Product[]>>;
+  setSelected: Dispatch<SetStateAction<SelectedProduct[]>>;
 };
 const ProductCard = ({
   product,
@@ -65,7 +48,7 @@ const ProductCard = ({
   const handleSelect = () => {
     isSelected
       ? setSelected((prev) => prev.filter((p) => p.id !== product.id))
-      : setSelected((prev) => [...prev, product]);
+      : setSelected((prev) => [...prev, { ...product, selectedCount: 1 }]);
   };
   return (
     <div
