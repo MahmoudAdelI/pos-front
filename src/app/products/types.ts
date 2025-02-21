@@ -31,4 +31,6 @@ export type SelectedProduct = Product & { selectedCount: number };
 export type SelectedProductContextType = {
   selectedProducts: SelectedProduct[];
   setSelectedProducts: React.Dispatch<React.SetStateAction<SelectedProduct[]>>;
+  increaseCount: (productId: string) => void;
+  decreaseCount: (productId: string) => void;
 };

@@ -9,7 +9,7 @@ const initialInvoiceData: InvoiceData = {
 const Bill = () => {
   const [invoiceData, setInvoiceData] =
     useState<InvoiceData>(initialInvoiceData);
-  const { selectedProducts } = useSelectedProductContext();
+  const { selectedProducts, increaseCount } = useSelectedProductContext();
   useEffect(() => {
     setInvoiceData((prev) => ({
       ...prev,
@@ -30,6 +30,7 @@ const Bill = () => {
             <h4 className="text-xs text-SecondaryTextColor">
               ${item.sellingPrice}/{item.unitName}
             </h4>
+            <h4>{item.selectedCount}</h4>
           </li>
         ))}
       </ul>

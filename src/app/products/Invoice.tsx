@@ -3,21 +3,40 @@ import { createContext, useContext, useState } from "react";
 
 import Bill from "./Bill";
 import ProductSelector from "./ProductSelector";
-import {
-  InvoiceData,
-  Product,
-  SelectedProduct,
-  SelectedProductContextType,
-} from "./types";
+import { SelectedProduct, SelectedProductContextType } from "./types";
 
 const Invoice = ({ token }: { token: string }) => {
   const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>(
     [],
   );
-
+  const increaseCount = (productId: string) => {
+    setSelectedProducts((prev) =>
+      prev.map((p) =>
+        p.id === productId ? { ...p, selectedCount: p.selectedCount + 1 } : p,
+      ),
+    );
+  };
+  const decreaseCount = (productId: string) => {
+    setSelectedProducts((prev) =>
+      prev.map((p) =>
+        p.id === productId
+          ? {
+              ...p,
+              selectedCount:
+                p.selectedCount === 1 ? p.selectedCount : p.selectedCount - 1,
+            }
+          : p,
+      ),
+    );
+  };
   return (
     <SelectedProductContext.Provider
-      value={{ selectedProducts, setSelectedProducts }}
+      value={{
+        selectedProducts,
+        setSelectedProducts,
+        increaseCount,
+        decreaseCount,
+      }}
     >
       <div className="flex">
         <div className="max-w-[80%]">

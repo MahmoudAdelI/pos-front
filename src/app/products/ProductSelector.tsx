@@ -45,25 +45,46 @@ const ProductCard = ({
   isSelected,
   setSelected,
 }: ProductCardProps) => {
+  const { increaseCount, decreaseCount } = useSelectedProductContext();
   const handleSelect = () => {
     isSelected
       ? setSelected((prev) => prev.filter((p) => p.id !== product.id))
       : setSelected((prev) => [...prev, { ...product, selectedCount: 1 }]);
   };
+
   return (
     <div
       onClick={handleSelect}
       className={classNames({
         "relative flex h-52 w-52 flex-col overflow-hidden rounded-md border border-navBorder transition-all":
           true,
-        "!border-Primary after:absolute after:inset-0 after:h-52 after:w-52 after:bg-Primary after:opacity-5":
-          isSelected,
+        "!border-Primary": isSelected,
       })}
     >
       <div className="h-full bg-skeleton"></div>
 
       <div className="flex justify-between p-2">
         <div className="flex flex-col">
+          {isSelected && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                increaseCount(product.id);
+              }}
+            >
+              +
+            </button>
+          )}
+          {isSelected && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                decreaseCount(product.id);
+              }}
+            >
+              -
+            </button>
+          )}
           <h3 className="text-xs font-semibold">{product.name}</h3>
           <h4 className="text-xs">{product.sellingPrice} $</h4>
         </div>
