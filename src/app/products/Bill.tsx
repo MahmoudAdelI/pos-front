@@ -9,7 +9,8 @@ const initialInvoiceData: InvoiceData = {
 const Bill = () => {
   const [invoiceData, setInvoiceData] =
     useState<InvoiceData>(initialInvoiceData);
-  const { selectedProducts, increaseCount } = useSelectedProductContext();
+  const { selectedProducts, increaseCount, decreaseCount } =
+    useSelectedProductContext();
   useEffect(() => {
     setInvoiceData((prev) => ({
       ...prev,
@@ -25,15 +26,32 @@ const Bill = () => {
       <h2 className="text-md font-semibold">Items</h2>
       <ul className="">
         {selectedProducts.map((item) => (
-          <li key={item.id} className="text-md border-b border-navBorder py-4">
-            <h3>{item.name}</h3>
-            <h4 className="text-xs text-SecondaryTextColor">
-              ${item.sellingPrice}/{item.unitName}
-            </h4>
-            <h4>{item.selectedCount}</h4>
+          <li
+            key={item.id}
+            className="text-md flex items-center gap-4 border-b border-navBorder py-4"
+          >
+            <div className="flex flex-col">
+              <h3>{item.name}</h3>
+              <h4 className="text-xs text-SecondaryTextColor">
+                ${item.sellingPrice}/{item.unitName}
+              </h4>
+            </div>
+            <div className="flex items-center gap-2">
+              <button onClick={() => decreaseCount(item.id)}>-</button>
+              <h4>{item.selectedCount}</h4>
+              <button onClick={() => increaseCount(item.id)}>+</button>
+            </div>
+            <h3>${item.sellingPrice * item.selectedCount}</h3>
           </li>
         ))}
       </ul>
+      <div>
+        <h2>Total</h2>$
+        {selectedProducts.reduce(
+          (acc, curr) => acc + curr.sellingPrice * curr.selectedCount,
+          0,
+        )}
+      </div>
     </>
   );
 };
