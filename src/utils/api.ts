@@ -10,7 +10,7 @@ import {
 export const fetchCategories = async (companyId: string, token: string) => {
   const { data } = await axios.get(
     `http://localhost:5091/api/Type/GetByCompanyId?companyId=${companyId}`,
-    { headers: { Authorization: `Bearer ${token}` } },
+    { headers: { Authorization: `Bearer ${token}` } }
   );
   const parsedData = categoriesSchema.safeParse(data);
   if (!parsedData.success) throw new Error("An unexpected error occured");

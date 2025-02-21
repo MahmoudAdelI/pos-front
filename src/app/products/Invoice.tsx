@@ -7,13 +7,13 @@ import { SelectedProduct, SelectedProductContextType } from "./types";
 
 const Invoice = ({ token }: { token: string }) => {
   const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>(
-    [],
+    []
   );
   const increaseCount = (productId: string) => {
     setSelectedProducts((prev) =>
       prev.map((p) =>
-        p.id === productId ? { ...p, selectedCount: p.selectedCount + 1 } : p,
-      ),
+        p.id === productId ? { ...p, selectedCount: p.selectedCount + 1 } : p
+      )
     );
   };
   const decreaseCount = (productId: string) => {
@@ -25,8 +25,8 @@ const Invoice = ({ token }: { token: string }) => {
               selectedCount:
                 p.selectedCount === 1 ? p.selectedCount : p.selectedCount - 1,
             }
-          : p,
-      ),
+          : p
+      )
     );
   };
   return (
@@ -60,7 +60,7 @@ export const useSelectedProductContext = () => {
   const context = useContext(SelectedProductContext);
   if (!context) {
     throw new Error(
-      "useSelectedProductContext must be used within an SelectedProductProvider",
+      "useSelectedProductContext must be used within an SelectedProductProvider"
     );
   }
   return context;

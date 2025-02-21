@@ -22,7 +22,7 @@ const createValidationSchema = (type: PropertyType) =>
       .string()
       .min(
         2,
-        `${type === "brands" ? "Brand" : type === "categories" ? "Category" : "Unit"} name must be at least 2 characters`,
+        `${type === "brands" ? "Brand" : type === "categories" ? "Category" : "Unit"} name must be at least 2 characters`
       )
       .max(50),
   });
@@ -85,7 +85,7 @@ const Modal = ({
         mode === "categories" ? { ...data, companyId: currentBrand } : data,
         {
           headers: { Authorization: `Bearer ${token}` },
-        },
+        }
       );
       if (res.status === 200) {
         queryClient.invalidateQueries({ queryKey: [mode] });

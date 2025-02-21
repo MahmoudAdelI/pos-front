@@ -15,7 +15,9 @@ export const AddProductFormSchema = z
     categoryId: z.string({ required_error: "Category is required" }).nonempty(),
     companyId: z.string({ required_error: "Brand is required" }).nonempty(),
     unitId: z
-      .string({ required_error: "You should define the unit of this product" })
+      .string({
+        required_error: "You should define the unit of this product",
+      })
       .nonempty(),
   })
   .refine((data) => data.sellingPrice > data.buyingPrice, {
@@ -27,7 +29,7 @@ export const brandsSchema = z.array(
   z.object({
     id: z.string(),
     name: z.string(),
-  }),
+  })
 );
 export type brandsType = z.infer<typeof brandsSchema>;
 
@@ -42,6 +44,6 @@ export const unitsSchema = z.array(
   z.object({
     id: z.string(),
     name: z.string(),
-  }),
+  })
 );
 export type unitsType = z.infer<typeof unitsSchema>;

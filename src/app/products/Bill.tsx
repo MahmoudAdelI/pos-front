@@ -49,7 +49,7 @@ const Bill = () => {
         <h2>Total</h2>$
         {selectedProducts.reduce(
           (acc, curr) => acc + curr.sellingPrice * curr.selectedCount,
-          0,
+          0
         )}
       </div>
     </>
